@@ -2,6 +2,8 @@
 
 Hooking into Business Logic
 
+
+
 [![Build Status](https://travis-ci.org/platdesign/atween?branch=master)](https://travis-ci.org/platdesign/atween)
 
 
@@ -10,6 +12,13 @@ Hooking into Business Logic
 `npm install --save atween`
 
 # Usage
+
+```
+const Atween = require('atween');
+
+const atween = new Atween();
+
+```
 
 
 # Author
