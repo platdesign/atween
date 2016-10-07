@@ -2,10 +2,7 @@
 
 Hooking into Business Logic
 
-
-
-[![Build Status](https://travis-ci.org/platdesign/atween?branch=master)](https://travis-ci.org/platdesign/atween)
-
+[![Build Status](https://travis-ci.org/platdesign/atween.svg?branch=master)](https://travis-ci.org/platdesign/atween)
 
 # Install
 
