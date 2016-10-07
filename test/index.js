@@ -7,55 +7,217 @@ const Atween = require('../');
 
 
 
+
 describe('atween', function() {
 
-	describe('instance', () => {
 
-		let instance;
+	let instance;
 
-		beforeEach(() => instance = new Atween());
+	beforeEach(() => instance = new Atween());
 
-		it('should be an object', () => expect(instance).to.be.an.object());
-		it('should be an instance of Atween', () => expect(instance).to.be.instanceOf(Atween));
-		it('should have method: inputInterceptor', () => expect(instance.inputInterceptor).to.be.a.function());
-		it('should have method: register', () => expect(instance.register).to.be.a.function());
-		it('should have method: outputInterceptor', () => expect(instance.outputInterceptor).to.be.a.function());
-		it('should have method: run', () => expect(instance.run).to.be.a.function());
+	it('should be an object', () => expect(instance).to.be.an.object());
+	it('should be an instance of Atween', () => expect(instance).to.be.instanceOf(Atween));
+	it('should have method: registerInputInterceptor', () => expect(instance.registerInputInterceptor).to.be.a.function());
+	it('should have method: register', () => expect(instance.register).to.be.a.function());
+	it('should have method: registerOutputInterceptor', () => expect(instance.registerOutputInterceptor).to.be.a.function());
+	it('should have method: run', () => expect(instance.run).to.be.a.function());
 
-		it('should have private hooks-store', () => expect(instance._hooks).to.be.an.object());
-		it('should have private method: _getOrCreateHookStack', () => expect(instance._getOrCreateHookStack).to.be.a.function());
+	it('should have private hooks-store', () => expect(instance._hooks).to.be.an.object());
+	it('should have private method: _getOrCreateHookStack', () => expect(instance._getOrCreateHookStack).to.be.a.function());
 
-		it('_getOrCreateHookStack() should return new stack', () => {
+	it('_getOrCreateHookStack() should return new stack', () => {
 
-			let stack = instance._getOrCreateHookStack('test');
+		let stack = instance._getOrCreateHookStack('test');
 
-			expect(stack)
-				.to.be.an.array()
-				.have.length(0);
-
-		});
-
-
-		it('should have private method: _getHookStack', () => expect(instance._getHookStack).to.be.a.function());
-
-		it('_getHookStack() should throw error on unknown stack', () => {
-
-			expect(() => instance._getHookStack('test'))
-				.to.throw(Error, 'Hook-Stack not found')
-
-		});
-
-		it('_getHookStack() should return expected stack', () => {
-
-			instance._hooks['test'] = [1, 2, 3];
-
-			expect(instance._getHookStack('test'))
-				.to.be.an.array()
-				.to.have.length(3)
-				.to.equal([1,2,3]);
-
-		});
+		expect(stack)
+			.to.be.an.object();
 
 	});
+
+
+	it('should have private method: _getHookStack', () => expect(instance._getHookStack).to.be.a.function());
+
+
+
+
+	it('_getHookStack() should throw error on unknown stack', () => {
+
+		expect(() => instance._getHookStack('test'))
+			.to.throw(Error, 'Hook-Stack not found');
+
+	});
+
+
+
+	it('_getHookStack() should return expected stack', () => {
+
+		let stack = instance._createHookStack('test');
+
+		expect(instance._getHookStack('test'))
+			.to.be.an.object()
+			.to.shallow.equal(stack);
+
+		expect(instance._getOrCreateHookStack('test'))
+			.to.be.an.object()
+			.to.shallow.equal(stack);
+
+	});
+
+
+
+	it('register() should return self for method chaining', () => {
+
+		let res = instance.register('test', {
+			name: 'a',
+			handler: function() {}
+		});
+
+		expect(res)
+			.to.shallow.equal(instance);
+
+	});
+
+
+
+
+
+	it('hooks should return expected result', () => {
+
+		instance
+			.register('test', {
+				name: 'a',
+				handler: () => 'A'
+			})
+			.register('test', {
+				name: 'b',
+				handler: () => 'B'
+			});
+
+		return instance.run('test').then((res) => expect(res).to.equal({
+			a: 'A',
+			b: 'B'
+		}));
+
+	});
+
+
+
+
+
+	it('hooks should return expected result (promised)', () => {
+
+		instance
+			.register('test', {
+				name: 'a',
+				handler: () => Promise.resolve('A')
+			})
+			.register('test', {
+				name: 'b',
+				handler: () => Promise.resolve('B')
+			});
+
+		return instance.run('test').then((res) => expect(res).to.equal({
+			a: 'A',
+			b: 'B'
+		}));
+
+	});
+
+
+
+
+
+
+	it('hooks should run in expected order (without priority)', () => {
+
+		let order = [];
+
+		instance
+			.register('test', {
+				name: 'a',
+				handler: () => order.push('A')
+			})
+			.register('test', {
+				name: 'b',
+				handler: () => order.push('B')
+			})
+			.register('test', {
+				name: 'c',
+				handler: () => order.push('C')
+			});
+
+		return instance.run('test').then(() => expect(order).to.equal(['A', 'B', 'C']));
+
+	});
+
+
+
+
+
+
+	it('hooks should run in expected order (with priority)', () => {
+
+		let order = [];
+
+		instance
+			.register('test', {
+				name: 'b',
+				priority: 200,
+				handler: () => order.push('A')
+			})
+			.register('test', {
+				name: 'a',
+				priority: 100,
+				handler: () => order.push('B')
+			})
+			.register('test', {
+				name: 'c',
+				priority: 300,
+				handler: () => order.push('C')
+			});
+
+		return instance.run('test').then(() => expect(order).to.equal(['B', 'A', 'C']));
+
+	});
+
+
+
+
+
+
+	it('hooks should receive input value', () => {
+
+		instance.register('test', {
+			name: 'a',
+			handler: function(input) {
+				return input * 3;
+			}
+		});
+
+
+		instance.registerInputInterceptor('test', {
+			handler: function(input) {
+				return input * 3;
+			}
+		});
+
+
+		instance.registerOutputInterceptor('test', {
+			handler: function(input) {
+				input.a /= 3;
+				return input;
+			}
+		});
+
+
+
+		return instance.run('test', 3)
+			.then((res) => expect(res).to.equal({ a: 9 }));
+
+
+	});
+
+
+
 
 });

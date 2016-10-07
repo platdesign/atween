@@ -9,7 +9,9 @@
     }
   ],
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "ctxq": "^0.1.5"
+  },
   "repository": "git@github.com:platdesign/atween.git",
   "scripts": {
     "test": "mocha"

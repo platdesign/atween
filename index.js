@@ -1,47 +1,75 @@
 'use strict';
 
+const HookStack = require('./lib/hook-stack');
+
+
 
 module.exports = class Atween {
+
+
 
 	constructor() {
 		this._hooks = {};
 	}
 
-	inputInterceptor() {
 
-	}
 
-	outputInterceptor() {
+	register(name, config) {
 
-	}
+		this._getOrCreateHookStack(name)
+			.registerHook(name, config);
 
-	register(name) {
-		let stack = this._getOrCreateHookStack(name);
-	}
-
-	run(name) {
-		let stack = this._getHookStack(name);
+		return this;
 	}
 
 
 
+	registerInputInterceptor(name, config) {
+
+		this._getOrCreateHookStack(name)
+			.registerInputInterceptor(config);
+
+		return this;
+	}
 
 
 
-	_getOrCreateHookStack(name) {
+	registerOutputInterceptor(name, config) {
 
-		let stack;
+		this._getOrCreateHookStack(name)
+			.registerOutputInterceptor(config);
 
-		try {
-			stack = this._getHookStack(name);
-		} catch(e) {
-			stack = [];
+		return this;
+	}
+
+
+
+	run(name, input) {
+		return this._getHookStack(name).run(input);
+	}
+
+
+
+
+
+
+
+
+
+
+	_createHookStack(name) {
+
+		if(this._hooks[name]) {
+			throw new Error(`Hook-Stack (${name}) already exists`);
 		}
 
-		this._hooks[name] = stack;
+		let stack = new HookStack(name);
 
-		return stack;
+		return (this._hooks[name] = stack);
 	}
+
+
+
 
 	_getHookStack(name) {
 
@@ -55,5 +83,25 @@ module.exports = class Atween {
 	}
 
 
+	_getOrCreateHookStack(name) {
 
-}
+		let stack;
+
+		try {
+			stack = this._getHookStack(name);
+		} catch(e) {
+			stack = this._createHookStack(name);
+		}
+
+		this._hooks[name] = stack;
+
+		return stack;
+	}
+
+
+
+
+
+
+
+};
