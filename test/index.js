@@ -248,24 +248,7 @@ describe('atween', function() {
 
 
 
-	it('run() should reject on inputInterceptor error', () => {
 
-		instance.registerInputInterceptor('test', {
-			handler: function(input) {
-				if(!input) {
-					throw new Error('test-error');
-				}
-			}
-		});
-
-
-		return instance.run('test')
-			.then(
-				() => { throw new Error('Should not resolve'); },
-				(err) => expect(err).to.be.an.instanceOf(Error)
-			);
-
-	});
 
 
 
@@ -279,6 +262,26 @@ describe('atween', function() {
 
 
 	describe('inputInterceptors', () => {
+
+		it('on error run() should reject', () => {
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input) {
+					if(!input) {
+						throw new Error('test-error');
+					}
+				}
+			});
+
+
+			return instance.run('test')
+				.then(
+					() => { throw new Error('Should not resolve'); },
+					(err) => expect(err).to.be.an.instanceOf(Error)
+				);
+
+		});
+
 
 		it('should execute in expected order', () => {
 
@@ -355,6 +358,101 @@ describe('atween', function() {
 
 	describe('outputInterceptors', () => {
 
+		it('on error run() should reject with empty last-result and original error inside', () => {
+
+			instance.registerOutputInterceptor('test', {
+				handler: function() {
+					throw new Error('test-error');
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then(
+					() => { throw new Error('Should not resolve'); },
+					(err) => {
+
+						expect(err).to.be.an.instanceOf(Error);
+						expect(err.original).to.be.an.instanceOf(Error);
+						expect(err.result)
+							.to.be.an.object()
+							.to.equal({});
+
+					}
+				);
+
+		});
+
+		it('on error run() should reject with current last-result and original error inside', () => {
+
+			instance.registerOutputInterceptor('test', {
+				handler: function() {
+					throw new Error('test-error');
+				}
+			});
+
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input + 1;
+				}
+			});
+
+			return instance.run('test', 'A')
+				.then(
+					() => { throw new Error('Should not resolve'); },
+					(err) => {
+
+						expect(err).to.be.an.instanceOf(Error);
+						expect(err.original).to.be.an.instanceOf(Error);
+						expect(err.result)
+							.to.be.an.object()
+							.to.equal({ a: 'A1' });
+
+					}
+				);
+
+		});
+
+
+
+		it('handlers should get original result-context as secont value', () => {
+
+			instance.registerOutputInterceptor('test', {
+				handler: function(result) {
+					return result.a + 1;
+				}
+			});
+
+			instance.registerOutputInterceptor('test', {
+				handler: function(result, original) {
+					return result + original.a + 2;
+				}
+			});
+
+			instance.registerOutputInterceptor('test', {
+				handler: function(result, original) {
+					return result + original.a + 3;
+				}
+			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then((res) => expect(res).to.equal('A1A2A3'));
+
+		});
+
+
+
+
 		it('should execute in expected order', () => {
 
 			instance.registerOutputInterceptor('test', {
@@ -418,6 +516,14 @@ describe('atween', function() {
 					return input;
 				}
 			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
 
 
 			return instance.run('test', 'A')
