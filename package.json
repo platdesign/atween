@@ -1,0 +1,14 @@
+{
+  "name": "atween",
+  "description": "Hooking into business-logic",
+  "author": [
+    {
+      "name": "Christian Blaschke",
+      "email": "mail@platdesign.de",
+      "url": "https://github.com/platdesign"
+    }
+  ],
+  "version": "0.0.0",
+  "dependencies": {},
+  "repository":""
+}
