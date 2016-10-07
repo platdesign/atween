@@ -10,5 +10,12 @@
   ],
   "version": "0.0.0",
   "dependencies": {},
-  "repository":"git@github.com:platdesign/atween.git"
+  "repository": "git@github.com:platdesign/atween.git",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "code": "^4.0.0",
+    "mocha": "^3.1.0"
+  }
 }
