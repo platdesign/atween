@@ -283,6 +283,42 @@ describe('atween', function() {
 		});
 
 
+		it('handlers should get original result-context as second value', () => {
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input) {
+					return input + 1;
+				}
+			});
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input, original) {
+					return input + original + 2;
+				}
+			});
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input, original) {
+					return input + original + 3;
+				}
+			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then((res) => expect(res).to.equal({ a: 'A1A2A3'}));
+
+		});
+
+
+
+
 		it('should execute in expected order', () => {
 
 			instance.registerInputInterceptor('test', {
@@ -417,7 +453,7 @@ describe('atween', function() {
 
 
 
-		it('handlers should get original result-context as secont value', () => {
+		it('handlers should get original result-context as second value', () => {
 
 			instance.registerOutputInterceptor('test', {
 				handler: function(result) {
