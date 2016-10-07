@@ -214,9 +214,218 @@ describe('atween', function() {
 		return instance.run('test', 3)
 			.then((res) => expect(res).to.equal({ a: 9 }));
 
+	});
+
+
+	it('if inputInterceptor does not return a value input value should not change', () => {
+
+		instance.registerInputInterceptor('test', {
+			handler: function() {
+				// DO NOT RETURN ANY VALUE
+			}
+		});
+
+		instance.registerInputInterceptor('test', {
+			handler: function(input) {
+				return input + 123;
+			}
+		});
+
+		instance.register('test', {
+			name: 'a',
+			handler: function(input) {
+				return input;
+			}
+		});
+
+		return instance.run('test', 'A')
+			.then((res) => expect(res).to.equal({ a: 'A123' }));
 
 	});
 
+
+
+
+
+
+	it('run() should reject on inputInterceptor error', () => {
+
+		instance.registerInputInterceptor('test', {
+			handler: function(input) {
+				if(!input) {
+					throw new Error('test-error');
+				}
+			}
+		});
+
+
+		return instance.run('test')
+			.then(
+				() => { throw new Error('Should not resolve'); },
+				(err) => expect(err).to.be.an.instanceOf(Error)
+			);
+
+	});
+
+
+
+
+
+
+
+
+
+
+
+
+	describe('inputInterceptors', () => {
+
+		it('should execute in expected order', () => {
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input) {
+					return input + 1;
+				}
+			});
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input) {
+					return input + 2;
+				}
+			});
+
+			instance.registerInputInterceptor('test', {
+				handler: function(input) {
+					return input + 3;
+				}
+			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then((res) => expect(res).to.equal({ a: 'A123' }));
+
+		});
+
+
+		it('should execute in expected order (with priorities)', () => {
+
+			instance.registerInputInterceptor('test', {
+				priority: 300,
+				handler: function(input) {
+					return input + 1;
+				}
+			});
+
+			instance.registerInputInterceptor('test', {
+				priority: 200,
+				handler: function(input) {
+					return input + 2;
+				}
+			});
+
+			instance.registerInputInterceptor('test', {
+				priority: 100,
+				handler: function(input) {
+					return input + 3;
+				}
+			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then((res) => expect(res).to.equal({ a: 'A321' }));
+
+		});
+
+	});
+
+
+	describe('outputInterceptors', () => {
+
+		it('should execute in expected order', () => {
+
+			instance.registerOutputInterceptor('test', {
+				handler: function(result) {
+					result.a += 1;
+				}
+			});
+
+			instance.registerOutputInterceptor('test', {
+				handler: function(result) {
+					result.a += 2;
+				}
+			});
+
+			instance.registerOutputInterceptor('test', {
+				handler: function(result) {
+					result.a += 3;
+				}
+			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then((res) => expect(res).to.equal({ a: 'A123' }));
+
+		});
+
+
+		it('should execute in expected order (with priorities)', () => {
+
+			instance.registerOutputInterceptor('test', {
+				priority: 300,
+				handler: function(result) {
+					result.a += 1;
+				}
+			});
+
+			instance.registerOutputInterceptor('test', {
+				priority: 200,
+				handler: function(result) {
+					result.a += 2;
+				}
+			});
+
+			instance.registerOutputInterceptor('test', {
+				priority: 100,
+				handler: function(result) {
+					result.a += 3;
+				}
+			});
+
+			instance.register('test', {
+				name: 'a',
+				handler: function(input) {
+					return input;
+				}
+			});
+
+
+			return instance.run('test', 'A')
+				.then((res) => expect(res).to.equal({ a: 'A321' }));
+
+		});
+
+	});
 
 
 
