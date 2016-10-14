@@ -29,6 +29,13 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 
 `npm install --save atween`
 
+# Usage
+
+```js
+const Atween = require('atween');
+const atween = new Atween();
+```
+
 
 # Concepts
 
