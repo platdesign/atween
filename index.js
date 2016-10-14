@@ -8,7 +8,7 @@ module.exports = class Atween {
 
 	constructor() {
 
-		this.interceprors = new InterceptorController();
+		this.interceptors = new InterceptorController();
 
 	}
 
@@ -24,12 +24,12 @@ module.exports = class Atween {
 	 * @return {[type]}        [description]
 	 */
 	registerInterceptor(name, config) {
-		this.interceprors.register(name, config);
+		this.interceptors.register(name, config);
 		return this;
 	}
 
 	runInterceptors(name, input, ctx) {
-		return this.interceprors.run(name, input, ctx);
+		return this.interceptors.run(name, input, ctx);
 	}
 
 
