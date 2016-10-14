@@ -52,7 +52,7 @@ atween.registerInterceptor('myUseCase', function(prevResult, originalInput) {
 });
 ```
 
-----
+
 
 
 
