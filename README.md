@@ -8,6 +8,17 @@ Hooking into Business Logic
 
 `npm install --save atween`
 
+
+# Main concepts
+
+## Interceptors
+
+Basically an interceptor transforms a given input an returns it. If there are multiple interceptors registered on the same case they will get the result of its antecessor as input. Additionally they will get the `original`-input as second parameter. If an error occurs inside of an interceptor the error object will be decorated with `$prevResult` and `$input`. Interceptors run sequentially based on their `priority` and can return a `Promise` if transformation needs async operations. If an interceptor does not return a value (or s.th. like `null` or `undefined`) it will pipe through its input value.
+
+
+
+
+
 # Usage
 
 ```javascript
