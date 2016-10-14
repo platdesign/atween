@@ -45,7 +45,7 @@ atween.registerInterceptor('myUseCase', {
 });
 ```
 
-or
+or without specific priority:
 
 ```js
 atween.registerInterceptor('myUseCase', function(prevResult, originalInput) {
