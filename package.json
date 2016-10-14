@@ -10,7 +10,9 @@
   ],
   "version": "0.0.2",
   "dependencies": {
-    "ctxq": "^0.1.5"
+    "ctxq": "^0.1.5",
+    "extend": "^3.0.0",
+    "is": "^3.1.0"
   },
   "repository": "git@github.com:platdesign/atween.git",
   "scripts": {

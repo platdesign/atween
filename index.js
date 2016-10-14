@@ -1,107 +1,45 @@
 'use strict';
 
-const HookStack = require('./lib/hook-stack');
+const HookCtrl = require('./lib/hook-controller');
+
 
 
 
 module.exports = class Atween {
 
-
-
 	constructor() {
-		this._hooks = {};
+
+		this._hooks = new HookCtrl();
+
+	}
+
+	registerHook(name, config) {
+
+	}
+
+	registerMiddleware(name, config) {
+
 	}
 
 
 
-	register(name, config) {
+	/**
+	 * Register an interceptor
+	 *
+	 * An interceptor expects two input parameters.
+	 * 1. Previous result
+	 * 2. Original input
+	 *
+	 * @param  {[type]} name   [description]
+	 * @param  {[type]} config [description]
+	 * @return {[type]}        [description]
+	 */
+	registerInterceptor(name, config) {
 
-		this._getOrCreateHookStack(name)
-			.registerHook(name, config);
-
-		return this;
 	}
 
+	registerEvent(name, config) {
 
-
-	registerInputInterceptor(name, config) {
-
-		this._getOrCreateHookStack(name)
-			.registerInputInterceptor(config);
-
-		return this;
 	}
-
-
-
-	registerOutputInterceptor(name, config) {
-
-		this._getOrCreateHookStack(name)
-			.registerOutputInterceptor(config);
-
-		return this;
-	}
-
-
-
-	run(name, input) {
-		return this._getHookStack(name).run(input);
-	}
-
-
-
-
-
-
-
-
-
-
-	_createHookStack(name) {
-
-		if(this._hooks[name]) {
-			throw new Error(`Hook-Stack (${name}) already exists`);
-		}
-
-		let stack = new HookStack(name);
-
-		return (this._hooks[name] = stack);
-	}
-
-
-
-
-	_getHookStack(name) {
-
-		let stack = this._hooks[name];
-
-		if(!stack) {
-			throw new Error('Hook-Stack not found');
-		}
-
-		return stack;
-	}
-
-
-	_getOrCreateHookStack(name) {
-
-		let stack;
-
-		try {
-			stack = this._getHookStack(name);
-		} catch(e) {
-			stack = this._createHookStack(name);
-		}
-
-		this._hooks[name] = stack;
-
-		return stack;
-	}
-
-
-
-
-
-
 
 };
