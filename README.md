@@ -25,7 +25,15 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 Basically an interceptor transforms a given input an returns it. If there are multiple interceptors registered on the same case they will get the result of its antecessor as input. Additionally they will get the `original`-input as second parameter. If an error occurs inside of an interceptor the error object will be decorated with `$prevResult` and `$input`. Interceptors run sequentially based on their `priority` and can return a `Promise` if transformation needs async operations. If an interceptor does not return a value (or s.th. like `null` or `undefined`) it will pipe through its input value.
 Interceptor methods can have an execution context (`this`).
 
-### `registerInterceptor(case, config)`
+### Methods
+
+- [`registerInterceptor(case, config)`](#registerinterceptor-case-config)
+- [`runInterceptors(case, input, [context])`](#runinterceptors-case-input-context)
+
+
+
+
+#### `registerInterceptor(case, config)`
 
 - `case` - (*String*) Name of the `case` as a string.
 - `config` - (*Object*|*Function*)
@@ -56,7 +64,7 @@ atween.registerInterceptor('myUseCase', function(prevResult, originalInput) {
 
 
 
-### `runInterceptors(case, input, [context])`
+#### `runInterceptors(case, input, [context])`
 
 Returns a `Promise` which resolves with the result of the last executed interceptor-handler. In case of an error it rejects with an error having two additional attribtues: `$prevResult` and `$input`.
 
