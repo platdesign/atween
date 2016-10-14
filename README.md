@@ -27,8 +27,8 @@ Interceptor methods can have an execution context (`this`).
 
 ### Methods
 
-- [`registerInterceptor(case, config)`](#registerinterceptor-case-config)
-- [`runInterceptors(case, input, [context])`](#runinterceptors-case-input-context)
+- [`registerInterceptor(case, config)`](#register-interceptor-case-config)
+- [`runInterceptors(case, input, [context])`](#run-interceptors-case-input-context)
 
 
 
