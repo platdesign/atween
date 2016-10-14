@@ -25,6 +25,10 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 		- [`registerEvent(case, config)`](#registereventcase-config)
 		- [`runEvents(case, input, [context])`](#runeventscase-input-context)
 			
+
+
+
+
 # Install
 
 `npm install --save atween`
@@ -35,6 +39,11 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 const Atween = require('atween');
 const atween = new Atween();
 ```
+
+
+
+
+
 
 
 # Concepts
