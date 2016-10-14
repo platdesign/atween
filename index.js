@@ -7,9 +7,7 @@ const InterceptorController = require('./lib/interceptor-controller');
 module.exports = class Atween {
 
 	constructor() {
-
 		this.interceptors = new InterceptorController();
-
 	}
 
 	/**
