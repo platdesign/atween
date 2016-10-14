@@ -1,7 +1,6 @@
 'use strict';
 
-const HookCtrl = require('./lib/hook-controller');
-
+const InterceptorController = require('./lib/interceptor-controller');
 
 
 
@@ -9,19 +8,9 @@ module.exports = class Atween {
 
 	constructor() {
 
-		this._hooks = new HookCtrl();
+		this.interceprors = new InterceptorController();
 
 	}
-
-	registerHook(name, config) {
-
-	}
-
-	registerMiddleware(name, config) {
-
-	}
-
-
 
 	/**
 	 * Register an interceptor
@@ -35,11 +24,15 @@ module.exports = class Atween {
 	 * @return {[type]}        [description]
 	 */
 	registerInterceptor(name, config) {
-
+		this.interceprors.register(name, config);
+		return this;
 	}
 
-	registerEvent(name, config) {
-
+	runInterceptors(name, input, ctx) {
+		return this.interceprors.run(name, input, ctx);
 	}
+
+
+
 
 };
