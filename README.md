@@ -25,7 +25,7 @@ Hooking into Business Logic
 			
 -
 
-<small>Lead Maintainer: [Christian Blaschke](https://github.com/platdesign) / [@platdesign](https://twitter.com/platdesign)</small>
+Lead Maintainer: [Christian Blaschke](https://github.com/platdesign) / [@platdesign](https://twitter.com/platdesign)
 
 <br><br>
 
