@@ -139,7 +139,7 @@ atween.runInterceptors('myUseCase', 5, { factor: 2 })
 
 
 
-
+----
 
 
 
@@ -173,6 +173,17 @@ Hooks can be registered on a specific `case` with a unique `name`. Running a `ca
 - `case` - Name of the case which should be executed.
 - `input` - Any type which should be injected into hook-handlers as input value.
 - `context` - Optional execution context for handlers.
+
+
+
+
+
+
+----
+
+
+
+
 
 
 
