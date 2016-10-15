@@ -36,7 +36,28 @@ module.exports = class Atween {
 	}
 
 
+	/**
+	 * Registers a hook on a specific case
+	 * @param  {String} name   Name of case
+	 * @param  {Object} config Configures the hook with handler, name and priority
+	 * @return {Object}        self for method chaining
+	 */
+	registerHook(name, config) {
+		this.hooks.register(name, config);
+		return this;
+	}
 
+
+	/**
+	 * Execute all hooks of a specific case with input and optional execution-context.
+	 * @param  {String} name  Name of case
+	 * @param  {Any} input Input value which should be used to execute each hook.
+	 * @param  {Object} ctx   Optional exection context of handler methods.
+	 * @return {Promise}      resolves with result-object containing each hook-result as key based on hooks name.
+	 */
+	runHooks(name, input, ctx) {
+		return this.hooks.run(name, input, ctx);
+	}
 
 
 
