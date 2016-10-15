@@ -151,7 +151,31 @@ atween.runInterceptors('myUseCase', 5, { factor: 2 })
 
 ## Hooks
 
-Hooks can be registered on a specific `case` with a unique `name`. Running a `case` with multiple hooks registered on it will execute all hook-handlers sequentially by `priority`. The first parameter passed into each hook-handler is the `input` given by the executor. Its result will be stored on a `result`-object with given `name` as key. The `result`-object is passed into each hook-handler as second paramter. If all hook-handlers of a `case` run successfully the `result`-object will be returned. Hook-handlers can return a `Promise` to do async stuff. A hook without a name will not have a `result`-object as second parameter and its return value will be ignored except its a `Promise` which would be used to defer the sequential-run. Thats very important and differs from an [Event](#event)!
+Hooks can be registered on a specific `case` with a unique `name`. Running a `case` with multiple hooks registered on it will execute all hook-handlers sequentially by `priority`. The first parameter passed into each hook-handler is the `input` given by the executor. Its result will be stored on a `result`-object with given `name` as key. The `result`-object is passed into each hook-handler as second paramter. If all hook-handlers of a `case` run successfully the `result`-object will be returned. Hook-handlers can return a `Promise` to do async stuff. A hook without a name will ignore the return value  except its a `Promise` which would be used to defer the sequential-run. Thats very important and differs from an [Event](#event)!
+
+### Methods
+
+- [`registerHook(case, config)`](#registerhookcase-config)
+- [`runHooks(case, input, [context])`](#runhookscase-input-context)
+
+
+#### `registerHook(case, config)`
+
+- `case` - Name of the case given as a string.
+- `config`
+	- `priority` - Number to define execution order point (Default: 1000)
+	- `name` - Name of the hook. Will be used as key on `result`-object.
+	- `handler(input, results)` - Hook-handler which will be executed on run. Will have `context` as `this` if `context` is given in `runHooks`-method.
+
+
+#### `runHooks(case, input, [context])`
+
+- `case` - Name of the case which should be executed.
+- `input` - Any type which should be injected into hook-handlers as input value.
+- `context` - Optional execution context for handlers.
+
+
+
 
 
 ## Events
@@ -160,55 +184,32 @@ Events work by the concept of "Fire and Forget". They will not wait for async op
 
 
 
+### Methods
+
+- [`registerEvent(case, config)`](#registereventcase-config)
+- [`runEvents(case, input, [context])`](#runeventscase-input-context)
+
+
+#### `registerEvent(case, config)`
+
+- `case` - Name of the case given as a string.
+- `config`
+	- `priority` - Number to define execution order point (Default: 1000)
+	- `name` - Name of the hook. Will be used as key on `result`-object.
+	- `handler(input, results)` - Hook-handler which will be executed on run. Will have `context` as `this` if `context` is given in `runHooks`-method.
+
+
+#### `runEvents(case, input, [context])`
+
+- `case` - Name of the case which should be executed.
+- `input` - Any type which should be injected into event-handlers as input value.
+- `context` - Optional execution context for handlers.
 
 
 
 
 
 
-
-# Usage
-
-```javascript
-const Atween = require('atween');
-
-const atween = new Atween();
-
-
-
-atween.register('user:signup', {
-	name: 'userObject',
-	priority: 100,
-	handler: function (input) {
-		return db.createUser(input);
-	}
-});
-
-atween.register('user:signup', {
-	name: 'send-welcome-mail',
-	priority: 5000,
-	handler: function (input) {
-		return this.userObject.sendWelcomeMail();
-	}
-});
-
-
-
-atween.registerInputInterceptor('user:signup', function(input) {
-	if(!input.username) {
-		throw new Error('Missing username');
-	}
-});
-
-
-
-atween.run('user:signup', {
-	// ... user credentials
-})
-.then((result) => console.log('Success!'));
-
-
-```
 
 
 # Author

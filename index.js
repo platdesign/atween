@@ -2,7 +2,7 @@
 
 const InterceptorController = require('./lib/interceptor-controller');
 const HookController = require('./lib/hook-controller');
-
+const EventController = require('./lib/event-controller');
 
 
 module.exports = class Atween {
@@ -10,6 +10,7 @@ module.exports = class Atween {
 	constructor() {
 		this.interceptors = new InterceptorController();
 		this.hooks = new HookController();
+		this.events = new EventController();
 	}
 
 
@@ -60,5 +61,15 @@ module.exports = class Atween {
 	}
 
 
+
+	registerEvent(name, handler) {
+		this.events.on(name, handler);
+		return this;
+	}
+
+	runEvents(name, input) {
+		this.events.emit(name, input);
+		return this;
+	}
 
 };
