@@ -11,6 +11,7 @@ Hooking into Business Logic
 
 
 - [Install](#install)
+- [Usage](#usage)
 - [Concepts](#concepts)
 	- [Interceptors](#interceptors)
 	- [Hooks](#hooks)
@@ -218,12 +219,5 @@ Events work by the concept of "Fire and Forget". They will not wait for async op
 
 
 
-
-
-
-
-# Author
-
-[@platdesign](https://twitter.com/platdesign)
 
 
