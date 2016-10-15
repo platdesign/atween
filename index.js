@@ -32,8 +32,8 @@ module.exports = class Atween {
 	 * @param  {Object} ctx   Execution context of handler methods.
 	 * @return {Promise}      resolves with transformed input.
 	 */
-	runInterceptors(name, input, ctx) {
-		return this.interceptors.run(name, input, ctx);
+	runInterceptors(name, input, self, invoker) {
+		return this.interceptors.run(name, input, self, invoker);
 	}
 
 
@@ -56,8 +56,8 @@ module.exports = class Atween {
 	 * @param  {Object} ctx   Optional exection context of handler methods.
 	 * @return {Promise}      resolves with result-object containing each hook-result as key based on hooks name.
 	 */
-	runHooks(name, input, ctx) {
-		return this.hooks.run(name, input, ctx);
+	runHooks(name, input, ctx, invoker) {
+		return this.hooks.run(name, input, ctx, invoker);
 	}
 
 
