@@ -180,6 +180,35 @@ Hooks can be registered on a specific `case` with a unique `name`. Running a `ca
 
 
 
+### Example
+
+```js
+atween.registerHook('test', {
+	name: 'A',
+	handler: (i) => i
+});
+
+// Will not have any effect on result-object cause missing name attribute.
+atween.registerHook('test', (i) => console.log(i));
+
+atween.registerHook('test', {
+	name: 'B',
+	handler: (i) => Promise.resolve(i * 2)
+});
+
+atween.registerHook('test', {
+	name: 'C',
+	priority: 500,
+	handler: (i) => i * 3
+});
+
+atween.runHooks('test', 2)
+	.then((res) => expect(res).to.equal({
+		C: 6, // First assignment caused by priority of 500
+		A: 2,
+		B: 4
+	}));
+```
 
 
 <br><br><br>
