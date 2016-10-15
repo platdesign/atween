@@ -1,4 +1,4 @@
-# atween
+# Atween
 
 Hooking into Business Logic
 
@@ -11,7 +11,9 @@ Hooking into Business Logic
 Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 
 
-- Atween
+----
+
+- [Atween](#)
 	- [Install](#install)
 	- [Concepts](#concepts)
 		- [Interceptors](#interceptors)
@@ -25,13 +27,16 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 		- [`registerEvent(case, config)`](#registereventcase-config)
 		- [`runEvents(case, input, [context])`](#runeventscase-input-context)
 			
-
-
+----
 
 
 # Install
 
 `npm install --save atween`
+
+
+----
+
 
 # Usage
 
@@ -41,6 +46,7 @@ const atween = new Atween();
 ```
 
 
+----
 
 
 
