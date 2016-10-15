@@ -27,7 +27,6 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 		- [`registerEvent(case, config)`](#registereventcase-config)
 		- [`runEvents(case, input, [context])`](#runeventscase-input-context)
 			
-----
 
 
 # Install
@@ -35,7 +34,6 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 `npm install --save atween`
 
 
-----
 
 
 # Usage
@@ -46,7 +44,6 @@ const atween = new Atween();
 ```
 
 
-----
 
 
 
@@ -145,8 +142,7 @@ atween.runInterceptors('myUseCase', 5, { factor: 2 })
 
 
 
-----
-
+<br><br><br>
 
 
 
@@ -184,11 +180,7 @@ Hooks can be registered on a specific `case` with a unique `name`. Running a `ca
 
 
 
-
-----
-
-
-
+<br><br><br>
 
 
 
@@ -233,4 +225,4 @@ Events work by the concept of "Fire and Forget". They will not wait for async op
 
 [@platdesign](https://twitter.com/platdesign)
 
-# License
+
