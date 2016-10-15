@@ -8,10 +8,6 @@ Hooking into Business Logic
 [![Build Status](https://travis-ci.org/platdesign/atween.svg?branch=master)](https://travis-ci.org/platdesign/atween)
 [![Current Version](https://img.shields.io/npm/v/atween.svg)](https://www.npmjs.com/package/atween)
 
-Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
-
-
-----
 
 - [Atween](#)
 	- [Install](#install)
@@ -27,6 +23,11 @@ Lead Maintainer: [Christian Blaschke](https://github.com/platdesign)
 		- [`registerEvent(case, config)`](#registereventcase-config)
 		- [`runEvents(case, input, [context])`](#runeventscase-input-context)
 			
+-
+
+Lead Maintainer: [Christian Blaschke](https://github.com/platdesign) / [@platdesign](https://twitter.com/platdesign)
+
+<br><br>
 
 
 # Install
