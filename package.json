@@ -8,7 +8,7 @@
       "url": "https://github.com/platdesign"
     }
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
     "ctxq": "^0.1.5",
     "extend": "^3.0.0",
