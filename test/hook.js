@@ -71,6 +71,30 @@ describe('Hook', () => {
 
 	});
 
+
+
+
+	it('should accept a handler as config parameter', () => {
+
+		const ctx = {};
+		const resultCtx = {};
+
+		const hook = new Hook(function(input, results) {
+			expect(this).to.shallow.equal(ctx);
+			expect(results).to.shallow.equal(resultCtx);
+
+			return Promise.resolve(input * 2);
+		});
+
+		expect(hook.priority).to.equal(1000);
+		expect(hook.id).to.be.undefined();
+
+		return hook.run(1, resultCtx, ctx)
+			.then((res) => expect(res).to.equal(2));
+
+	});
+
+
 });
 
 
